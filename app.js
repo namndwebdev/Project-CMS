@@ -7,7 +7,11 @@ const logger = require('morgan')
 const indexRouter = require('./routes/index')
 const usersRouter = require('./routes/users')
 
+const connectDb = require('./configs/connectDb')
+
 const app = express()
+
+connectDb()
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'))

@@ -1,16 +1,27 @@
 {
   "name": "team-cms",
-  "version": "0.0.0",
-  "private": true,
+  "version": "1.0.0",
+  "description": "CMS - Dương, Đoàn, Đức Anh, Tuấn Anh",
+  "main": "app.js",
   "scripts": {
-    "start": "node ./bin/www"
+    "start": "nodemon ./bin/www",
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DoanArsenal2905/Project-CMS.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/DoanArsenal2905/Project-CMS/issues"
+  },
+  "homepage": "https://github.com/DoanArsenal2905/Project-CMS#readme",
   "dependencies": {
-    "cookie-parser": "~1.4.4",
-    "debug": "~2.6.9",
-    "ejs": "~2.6.1",
-    "express": "~4.16.1",
-    "http-errors": "~1.6.3",
-    "morgan": "~1.9.1"
+    "cookie-parser": "^1.4.4",
+    "express": "^4.17.1",
+    "http-errors": "^1.7.3",
+    "mongoose": "^5.7.10",
+    "morgan": "^1.9.1"
   }
 }
