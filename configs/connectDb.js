@@ -1,16 +1,15 @@
 const mongoose = require("mongoose")
+const URI = require('./config').URI
 
-let URI = "mongodb://localhost/project-cms"
-let connectDB = async () => {
-  try {
-    mongoose.connect(URI, {
-      useNewUrlParser: true,
-      useUnifiedTopology: true
-    });
-    console.log(`Connect to Database Successfully!`)
-  } catch (error) {
-    console.log(error)
-  }
-}
+mongoose.connect(URI, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true
+});
 
-module.exports = connectDB
+mongoose.connection.on('error', console.error.bind(console, 'connection error:'));
+mongoose.connection.once('open', function() {
+  console.log(`Connect to Database Successfully!`)
+});
+
+
+module.exports = mongoose

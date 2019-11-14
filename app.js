@@ -9,11 +9,11 @@ const usersRouter = require('./routes/users')
 
 const userApi = require('./api/userRoute')
 
-const connectDb = require('./configs/connectDb')
+require('./configs/connectDb')
 
 const app = express()
 
-connectDb()
+
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'))
