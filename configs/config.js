@@ -1,4 +1,4 @@
-let URI = "mongodb://localhost/project-cms"
+let URI = "mongodb://localhost/strapi-cms-project"
 
 module.exports = {
     URI
