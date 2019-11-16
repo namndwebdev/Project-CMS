@@ -63,8 +63,9 @@ let updatePost = async (req, res) => {
   
 let deletePost = async (req, res) => {
     try {
-      let post = await PostModel.findOneAndDelete({ _id: req.params.id }).exec();
-      if (!user) res.json({ status: false, message: `post not found!` });
+        var id =  req.params.id;
+      let post = await PostModel.findOneAndDelete({ _id:id}).exec();
+      if (!post) res.json({ status: false, message: `post not found!` });
       else res.json({ status: true, message: `Delete Succesfully!` });
     } catch (error) {
       return res.status(500).json(error);
