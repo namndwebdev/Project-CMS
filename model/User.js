@@ -1,13 +1,21 @@
-const mongoose = require('mongoose')
-const Schema = mongoose.Schema
+const mongoose = require('mongoose');
+const Schema = mongoose.Schema;
+const bcrypt = require('bcrypt');
 
-let UserModel = new Schema({
-  username: String,
-  email: String,
+let UserSchema = new Schema({
+  username: { type: String, unique: true },
+  email: { type: String, unique: true },
   password: String,
+  provider: { type: String, default: `local` },
+  confirmed: { type: Boolean, default: false },
+  blocked: { type: Boolean, default: false },
   type: { type: Number, default: 2 }
-}, { collection: 'user' })
+}, { collection: `users-permissions_user`, timestamps: true });
 
-let User = mongoose.model(`user`, UserModel)
+let UserModel = mongoose.model(`users-permissions_user`, UserSchema);
 
-module.exports = User
+UserModel.prototype.hashPassword = function() {
+  this.password = bcrypt.hashSync(this.password, 10);
+}
+
+module.exports = UserModel
