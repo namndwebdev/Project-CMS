@@ -2,10 +2,9 @@ const mongoose = require('../configs/connectDb')
 const Schema = mongoose.Schema
 
 let CommentModel = new Schema({
-  title: String,
   content: String,
-  account: { type: Schema.Types.ObjectId, ref:'account' },
-}, { collection: 'comment' })
+  user: { type: Schema.Types.ObjectId, ref:'users-permissions_user' },
+}, { collection: 'comment', timestamps: true })
 
 let Comment = mongoose.model('comment', CommentModel);
 module.exports = Comment

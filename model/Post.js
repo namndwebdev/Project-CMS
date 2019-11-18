@@ -4,7 +4,7 @@ const Schema = mongoose.Schema
 let PostModel = new Schema({
   title: {type:String,require: true, unique: true,sparse:true},
   content: String,
-  Topic: String,
+  topic: String,
   account: [{ type: Schema.Types.ObjectId, ref:'account' }],
   comments:[ { type: Schema.Types.ObjectId, ref:'comment' }]
 }, { collection: 'post' })

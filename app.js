@@ -7,12 +7,13 @@ const passport = require('passport')
 
 const indexRouter = require('./routes/index')
 const usersRouter = require('./routes/users')
-const loginRoute = require('./api/loginRoute')
-const userApi = require('./api/userRoute')
+const loginRoute = require('./api/user/loginRoute')
+const userApi = require('./api/user/userRoute')
 require('./configs/connectDb')
 require('./configs/passport');
 const postImg = require("./api/post/postImages");
-const postText = require("./api/post/postText");
+const postApi = require("./api/post/postRoute");
+const commentApi = require('./api/comment/commentRoute')
 const app = express()
 
 // view engine setup
@@ -28,13 +29,13 @@ app.use(express.static(path.join(__dirname, 'public')))
 app.use('/', indexRouter)
 app.use('/users', usersRouter)
 
-// app.use('/api/user', userApi)
+app.use('/api/user', userApi)
 app.use('/api/', loginRoute)
 
-app.use('/api/user', passport.authenticate('jwt', {session: false}), userApi)
-
 app.use("/post-images",postImg);
-app.use("/post",postText);
+app.use("/api/post", postApi);
+
+app.use('/api/post', commentApi)
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   next(createError(404))
