@@ -19,15 +19,11 @@ let createComment = async (req, res) => {
       content: req.body.content,
       user: req.body.idUser,
     };
-    let pid = req.params.pid
-    let result = await CommentModel.create(comment);
-    let commentId = result._id;
-    let data = await PostModel.findById({ _id: pid });
-    console.log(data);
-    let postId = data.comments
-    postId.push(commentId)
-    console.log(postId);
-    res.json(`Thanh cong`);
+    let newComment = await CommentModel.create(comment);
+    let data = await PostModel.update({ _id: req.params.pid },
+      { $push: { comments: newComment._id } }
+      );
+    res.json(data);
   } catch (error) {
     res.status(500).json(error);
   }

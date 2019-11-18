@@ -48,18 +48,13 @@ let createPost = async (req, res) => {
 
 let updatePost = async (req, res) => {
   try {
-    let post = {
-      title: req.body.title,
-      content: req.body.content,
-      topic: req.body.topic
-    };
+    let post = {};
+    if(req.body.title) post.title = req.body.title
+    if(req.body.content) post.content = req.body.content
+    if(req.body.topic) post.topic = req.body.topic
     let result = await PostModel.updateOne(
       { _id: req.params.pid },
-      {
-        title: req.body.title,
-        content: req.body.content,
-        topic: req.body.topic
-      }
+      post
     );
     if (!result) res.json({ status: false, message: `Can't update post` });
     else res.json({ status: true, data: post });
