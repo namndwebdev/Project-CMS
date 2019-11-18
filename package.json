@@ -18,6 +18,7 @@
   },
   "homepage": "https://github.com/DoanArsenal2905/Project-CMS#readme",
   "dependencies": {
+    "bcrypt": "^3.0.6",
     "cookie-parser": "^1.4.4",
     "ejs": "^2.7.2",
     "express": "^4.17.1",

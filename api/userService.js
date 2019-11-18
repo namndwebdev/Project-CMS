@@ -26,8 +26,12 @@ let createUser = async (req, res) => {
       email: req.body.email,
       password: req.body.password
     };
-    await UserModel.create(user);
-    return res.json(user);
+
+    var newUser = new UserModel(user)
+    newUser.hashPassword()
+    await newUser.save()
+    
+    return res.json(newUser);
   } catch (error) {
     return res.status(500).json(error);
   }
