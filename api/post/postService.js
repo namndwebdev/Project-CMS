@@ -2,13 +2,15 @@ const PostModel = require("../../model/Post");
 const Comment = require("../../model/Comment");
 const User = require("../../model/User");
 let getAllPost = async (req, res) => {
-    try {
+    // try {
       let data = await  PostModel.find().populate("user").populate("comments");
-      return res.json(data);
-    } catch (error) {
-      return res.status(500).json(error);
-    }
+      console.log(data)
+    //   return res.json(data);
+    // } catch (error) {
+    //   return res.status(500).json(error);
+    // }
 };
+getAllPost();
 //get by id
 let getPostId = async (req, res) => {
     try {
