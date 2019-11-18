@@ -1,4 +1,4 @@
-const UserModel = require("../model/User");
+const UserModel = require("../../model/User");
 
 let getAllUser = async (req, res) => {
   try {
@@ -27,7 +27,7 @@ let createUser = async (req, res) => {
       password: req.body.password
     };
 
-    var newUser = new UserModel(user)
+    let newUser = new UserModel(user)
     newUser.hashPassword()
     await newUser.save()
     
@@ -44,14 +44,7 @@ let updateUser = async (req, res) => {
       email: req.body.email,
       password: req.body.password
     };
-    let result = await UserModel.updateOne(
-      { _id: req.params.uid },
-      {
-        username: req.body.username,
-        email: req.body.email,
-        password: req.body.password
-      }
-    );
+    let result = await UserModel.updateOne({ _id: req.params.uid }, { user });
     if (!result) res.json({ status: false, message: `Can't update user` });
     else res.json({ status: true, data: user });
   } catch (error) {
