@@ -12,7 +12,12 @@ let postLogin = (req, res) => {
     req.login(user, { session: false }, err => {
       if (err) res.send(err);
       const token = jwt.sign(user, 'doan')
-      res.json({ token })
+      delete user.password;
+      delete user.createdAt;
+      delete user.updatedAt;
+      res.json({ 
+        user: user,
+        token })
     })
   })(req, res)
 }

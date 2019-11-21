@@ -7,11 +7,8 @@
     "start": "nodemon ./bin/www",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/DoanArsenal2905/Project-CMS.git"
-  },
-  "author": "",
+  "repository": "git+https://github.com/DoanArsenal2905/Project-CMS.git",
+  "author": "tuananhpta19 <tuananh.pta19@gmail.com>",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/DoanArsenal2905/Project-CMS/issues"

@@ -1,5 +1,6 @@
 const UserModel = require("../../model/User");
-
+const bcrypt = require('bcrypt');
+const saltRounds = 10;
 let getAllUser = async (req, res) => {
   try {
     let users = await UserModel.find({});
@@ -21,17 +22,25 @@ let getUser = async (req, res) => {
 
 let createUser = async (req, res) => {
   try {
-    let user = {
-      username: req.body.username,
-      email: req.body.email,
-      password: req.body.password
-    };
+  
 
-    let newUser = new UserModel(user)
-    newUser.hashPassword()
-    await newUser.save()
-    
-    return res.json(newUser);
+    bcrypt.genSalt(saltRounds, function(err, salt) {
+      bcrypt.hash( req.body.password, salt, function(err, hash) {
+        let user = {
+          username: req.body.username,
+          email: req.body.email,
+          password: hash
+        };
+        let newUser = new UserModel(user);
+        newUser.save();
+        return res.json({
+          status: "thanh cong",
+          data: newUser,
+        });
+      });
+  });
+
+  
   } catch (error) {
     return res.status(500).json(error);
   }
