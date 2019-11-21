@@ -1,6 +1,5 @@
 const passport = require('passport')
 const jwt = require('jsonwebtoken')
-
 let postLogin = (req, res) => {
   passport.authenticate('local', { session: false }, (err, user, info) => {
     if (err || !user) {
@@ -11,7 +10,7 @@ let postLogin = (req, res) => {
     }
     req.login(user, { session: false }, err => {
       if (err) res.send(err);
-      const token = jwt.sign(user, 'doan')
+      const token = jwt.sign({user}, 'doan', { expiresIn: 3600*60 })
       delete user.password;
       delete user.createdAt;
       delete user.updatedAt;

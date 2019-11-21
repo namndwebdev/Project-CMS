@@ -4,7 +4,6 @@ const passportJWT = require("passport-jwt")
 const JWTStrategy = passportJWT.Strategy
 const ExtractJWT = passportJWT.ExtractJwt
 const bcrypt = require('bcrypt');
-const saltRounds = 10;
 const UserModel = require('../model/User')
 
 passport.use(new LocalStrategy({

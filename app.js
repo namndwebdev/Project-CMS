@@ -11,9 +11,8 @@ const userApi = require('./api/user/userRoute')
 require('./configs/connectDb')
 require('./configs/passport');
 const postImg = require("./api/post/postImagesRouter");
-const postText = require("./api/post/postTextRouter");
+const postText = require("./api/post/postRoute");
 const commentApi= require("./api/comment/commentRoute");
-const signUp = require("./api/user/signUp");
 const app = express();
 // view engine setup
 app.set('views', path.join(__dirname, 'views'))
@@ -25,8 +24,6 @@ app.use(cookieParser())
 app.use(express.static(path.join(__dirname, 'public')))
 
 app.use('/', indexRouter)
-app.use('/users', usersRouter)
-app.use("/api/signUp",signUp);
 //call api user
 app.use('/api/user', userApi)
 app.use('/api/', loginRoute)

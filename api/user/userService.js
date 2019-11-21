@@ -3,8 +3,11 @@ const bcrypt = require('bcrypt');
 const saltRounds = 10;
 let getAllUser = async (req, res) => {
   try {
-    let users = await UserModel.find({});
-    return res.json(users);
+    let user = await UserModel.find({});
+    return res.json({
+      status: "Search Successfully",
+      data:user
+    });
   } catch (error) {
     return res.status(500).json(error);
   }
@@ -12,9 +15,15 @@ let getAllUser = async (req, res) => {
 
 let getUser = async (req, res) => {
   try {
-    let uid = req.params.uid;
-    let user = await UserModel.findById(uid);
-    return res.json(user);
+    let user = await UserModel.findById(req.params.uid);
+    delete user.password;
+    delete user.createdAt;
+    delete user.updatedAt;
+    delete user.type;
+    return res.json({
+      status: "Search Successfully",
+      data: user
+    });
   } catch (error) {
     return res.status(500).json(error);
   }
@@ -22,25 +31,20 @@ let getUser = async (req, res) => {
 
 let createUser = async (req, res) => {
   try {
-  
-
-    bcrypt.genSalt(saltRounds, function(err, salt) {
+    bcrypt.genSalt(saltRounds,  function(err, salt) {
       bcrypt.hash( req.body.password, salt, function(err, hash) {
         let user = {
           username: req.body.username,
           email: req.body.email,
           password: hash
         };
-        let newUser = new UserModel(user);
-        newUser.save();
-        return res.json({
-          status: "thanh cong",
-          data: newUser,
+        UserModel.create(user).then(function(newUser) {
+          return res.json({
+            status: "Registry Successfully!"
+          });
         });
       });
   });
-
-  
   } catch (error) {
     return res.status(500).json(error);
   }
@@ -48,14 +52,13 @@ let createUser = async (req, res) => {
 
 let updateUser = async (req, res) => {
   try {
-    let user = {
-      username: req.body.username,
-      email: req.body.email,
-      password: req.body.password
-    };
-    let result = await UserModel.updateOne({ _id: req.params.uid }, { user });
-    if (!result) res.json({ status: false, message: `Can't update user` });
-    else res.json({ status: true, data: user });
+    let userEdit = {};
+    if(req.body.username) user.username= req.body.username;
+    if(req.body.email) user.email= req.body.email;
+    if(req.body.password) username.password = req.body.password;
+    let userNew = await UserModel.updateOne({ _id: req.params.uid }, { userEdit });
+    if (!userNew) res.json({ status: "Can't update user" });
+    else res.json({ status: "Update Succesfully!", data: userNew });
   } catch (error) {
     return res.status(500).json(error);
   }
@@ -64,8 +67,8 @@ let updateUser = async (req, res) => {
 let deleteUser = async (req, res) => {
   try {
     let user = await UserModel.findOneAndDelete({ _id: req.params.uid }).exec();
-    if (!user) res.json({ status: false, message: `User not found!` });
-    else res.json({ status: true, message: `Delete Succesfully!` });
+    if (!user) res.json({ status: "User not found!"});
+    else res.json({ status: "Delete Succesfully!" });
   } catch (error) {
     return res.status(500).json(error);
   }

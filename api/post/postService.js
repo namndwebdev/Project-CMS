@@ -3,10 +3,11 @@ const Comment = require("../../model/Comment");
 const User = require("../../model/User");
 let getAllPost = async (req, res) => {
   try {
-    let data = await PostModel.find()
-      .populate("user")
-      .populate("comments");
-    return res.json(data);
+    let data = await PostModel.find().populate("user",["username","email","avatar"]).populate("comments");
+    return res.json({
+      status: "Search Successfully",
+      data
+    });
   } catch (error) {
     return res.status(500).json(error);
   }
@@ -15,9 +16,7 @@ let getAllPost = async (req, res) => {
 let getPostId = async (req, res) => {
   try {
     let postId = req.params.pid;
-    let data = await PostModel.findById(postId)
-      .populate("user")
-      .populate("comments");
+    let data = await PostModel.findById(postId).populate("user",["username","email","avatar"]).populate("comments");
     return res.json(data);
   } catch (error) {
     return res.status(500).json(error);
@@ -33,8 +32,8 @@ let createPost = async (req, res) => {
       user:req.body.idUser
     });
     return res.json({
-      status: "Dang thanh cong",
-      data
+      status: "Post Successfully",
+      data,
     });
   } catch (error) {
     return res.status(500).json(error);
@@ -43,16 +42,16 @@ let createPost = async (req, res) => {
 //   edit post
 let updatePost = async (req, res) => {
   try {
-    let post = {};
+    let postNew = {};
     if(req.body.title) post.title = req.body.title;
     if(req.body.content) post.content = req.body.content;
     if(req.body.topic) post.topic = req.body.topic;
-    let result = await PostModel.updateOne(
+    let postEdit = await PostModel.updateOne(
       { _id: req.params.pid },
-      post
+      postNew
     );
-    if (!result) res.json({ status: false, message: `Can't update post` });
-    else res.json({ status: true, data: post });
+    if (!postEdit) res.json({ status: `Can't update post`});
+    else res.json({ status: "update successful", data: postEdit });
   } catch (error) {
     return res.status(500).json(error);
   }
@@ -60,10 +59,9 @@ let updatePost = async (req, res) => {
 
 let deletePost = async (req, res) => {
   try {
-    let id = req.params.pid;
-    let post = await PostModel.findOneAndDelete({ _id: id }).exec();
-    if (!post) res.json({ status: false, message: `post not found!` });
-    else res.json({ status: true, message: `Delete Succesfully!` });
+    let postDelete = await PostModel.findOneAndDelete({ _id: req.params.pid}).exec();
+    if (!postDelete) res.json({ status: `post not found!`});
+    else res.json({ status: `Delete Succesfully!`  });
   } catch (error) {
     return res.status(500).json(error);
   }

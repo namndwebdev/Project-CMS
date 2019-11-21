@@ -4,8 +4,8 @@ const PostModel = require("../../model/Post");
 // lay tat ca comment cua 1 bai viet
 let getAllComment = async (req, res) => {
   try {
-    let pid = req.params.pid;
-    let getCommentId = await PostModel.findById({ _id: pid }).populate("comments");
+
+    let getCommentId = await PostModel.findById(req.params.pid).populate("comments");
     res.json(getCommentId.comments);
   } catch (error) {
     res.status(500).json(error);
@@ -19,10 +19,13 @@ let createComment = async (req, res) => {
       user: req.body.idUser,
     };
     let newComment = await CommentModel.create(comment);
-    let data = await PostModel.update({ _id: req.params.pid },
+     await PostModel.updateOne({ _id: req.params.pid },
       { $push: { comments: newComment._id } }
       );
-    res.json(data);
+    res.json({
+      status: "comment successfully",
+      data:newComment
+    });
   } catch (error) {
     res.status(500).json(error);
   }
@@ -30,15 +33,17 @@ let createComment = async (req, res) => {
 
 let updateComment = async (req, res) => {
   try {
-    let comment = {
-      content: req.body.content
-    };
-    let result = await CommentModel.updateOne(
+    let newComment = {};
+    if(req.body.content) newComment.content = req.body.content
+    let commentEdit = await CommentModel.updateOne(
       { _id: req.params.cid },
-      { comment }
+      { newComment }
     );
-    if (!result) res.json({ status: false, message: `Can't update comment` });
-    else res.json({ status: true, data: user });
+    await PostModel.updateOne({ _id: req.params.pid },
+      { $push: { comments: newComment._id } }
+      );
+    if (!commentEdit) res.json({ status: `Can't update comment` });
+    else res.json({ status: "update comment success", data: newComment });
   } catch (error) {
     res.status(500).json(error);
   }
@@ -46,9 +51,9 @@ let updateComment = async (req, res) => {
 
 let deleteComment = async (req, res) => {
   try {
-    let comment = await CommentModel.findOneAndDelete({ _id: req.params.cid });
-    if (!comment) res.json({ status: false, message: `User not found!` });
-    else res.json({ status: true, message: `Delete Succesfully!` });
+    let commentDelete = await CommentModel.findOneAndDelete({ _id: req.params.cid });
+    if (!commentDelete) res.json({ status: `Comment not found!`});
+    else res.json({ status: `Delete Succesfully!` });
   } catch (error) {
     res.status(500).json(error);
   }
