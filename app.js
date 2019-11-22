@@ -14,7 +14,8 @@ const postImg = require("./api/post/postImagesRouter");
 const postText = require("./api/post/postRoute");
 const postAvatar = require("./api/user/postAvatar")
 const commentApi= require("./api/comment/commentRoute");
-const checkEmail = require("./middleware/checkEmail");
+const isEmail = require("./middleware/isEmail");
+const sendEmail = require("./middleware/authenEmail")
 const app = express();
 // view engine setup
 app.set('views', path.join(__dirname, 'views'))
@@ -35,8 +36,9 @@ app.use("/api/post", postText);
 //call api comment
 app.use('/api/post', commentApi);
 //check email
-app.use("/checkEmail",checkEmail);
+app.use("/checkEmail",isEmail);
 //post avatar
+app.use("/send",sendEmail);
 app.use("/post-avatar", postAvatar);
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

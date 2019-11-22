@@ -7,7 +7,7 @@ let UserSchema = new Schema({
   email: { type: String, unique: true },
   password: String,
   provider: { type: String, default: `local` },
-  confirmed: { type: Boolean, default: false },
+  confirmed: { type: Boolean, default: true },
   blocked: { type: Boolean, default: false },
   type: { type: Number, default: 2 },
   avatar: {
