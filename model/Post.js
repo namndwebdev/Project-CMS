@@ -6,7 +6,10 @@ let PostModel = new Schema({
   content: String,
   topic: String,
   user: [{ type: Schema.Types.ObjectId, ref:'users-permissions_user' }],
-  comments:[ { type: Schema.Types.ObjectId, ref:'comment' }]
+  comments:[ { type: Schema.Types.ObjectId, ref:'comment' }],
+  images:[
+    {type:Schema.Types.ObjectId}
+  ]
 }, { collection: 'post' });
 
 let Post = mongoose.model('post', PostModel);

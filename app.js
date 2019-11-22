@@ -12,7 +12,9 @@ require('./configs/connectDb')
 require('./configs/passport');
 const postImg = require("./api/post/postImagesRouter");
 const postText = require("./api/post/postRoute");
+const postAvatar = require("./api/user/postAvatar")
 const commentApi= require("./api/comment/commentRoute");
+const checkEmail = require("./middleware/checkEmail");
 const app = express();
 // view engine setup
 app.set('views', path.join(__dirname, 'views'))
@@ -31,7 +33,11 @@ app.use('/api/', loginRoute)
 app.use("/post-images",postImg);
 app.use("/api/post", postText);
 //call api comment
-app.use('/api/post', commentApi)
+app.use('/api/post', commentApi);
+//check email
+app.use("/checkEmail",checkEmail);
+//post avatar
+app.use("/post-avatar", postAvatar);
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   next(createError(404))
