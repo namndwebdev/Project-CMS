@@ -11,7 +11,7 @@ router.post("/", function (req, res, next) {
     })
     form.parse(req, function (err, fields, file) {
         let imagesPost = {};
-        if(file.images) imagesPost.avatar = file.images.path;
+        if(file.images) imagesPost.images = file.images.path;
         UserModel.findOneAndUpdate({_id:"5dd805a3f6b2d10594ce5248"},imagesPost).then(function(pathAvatar){
             res.json(imagesPost);
         });   
