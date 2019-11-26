@@ -24,7 +24,7 @@ router.post("/",checkToken, function (req, res, next) {
     form.parse(req, async function (err, fields, file) {
         let imagesPost = {};
         if(file.images) imagesPost.images = file.images.path;
-      await  UserModel.updateOne({_id:req.locals},imagesPost).then(function(pathAvatar){
+      await  UserModel.updateOne({_id:req.user},imagesPost).then(function(pathAvatar){
             res.json(imagesPost);
         });   
 

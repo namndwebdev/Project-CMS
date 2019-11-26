@@ -36,7 +36,7 @@ router.post("/",checkToken, function (req, res, next) {
         file.path = newpath;
         let avatarNew = {}  
         if(file.images) avatarNew.avatar = file.images.path;
-       await UserModel.updateOne({_id:req.locals},avatarNew).exec().then(function(pathAvatar){
+       await UserModel.updateOne({_id:req.user},avatarNew).exec().then(function(pathAvatar){
             res.json(avatarNew);
         });      
     });

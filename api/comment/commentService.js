@@ -6,51 +6,28 @@ let getAllComment = (pid) => {
   return  PostModel.findById(pid).populate("comments").populate('user',["username","email","avatar"])
 };
 
-let createComment = async (req, res) => {
-  try {
-    let comment = {
-      content: req.body.content,
-      user: req.body.idUser,
-    };
-    let newComment = await CommentModel.create(comment);
-     await PostModel.updateOne({ _id: req.params.pid },
-      { $push: { comments: newComment._id } }
-      );
-    res.json({
-      status: "comment successfully",
-      data:newComment
-    });
-  } catch (error) {
-    res.status(500).json(error);
-  }
+let createComment =  async (comment,pid) => {
+  let newComment = await CommentModel.create(comment);
+ await PostModel.updateOne({ _id: pid },
+   { $push: { comments: newComment._id } }
+   );
+   return newComment;
 };
 
-let updateComment = async (req, res) => {
-  try {
-    let newComment = {};
-    if(req.body.content) newComment.content = req.body.content
-    let commentEdit = await CommentModel.updateOne(
-      { _id: req.params.cid },
-      newComment 
+let updateComment = async (pid,newComment,cid) => {
+  let commentEdit = await CommentModel.updateOne(
+    { _id: cid },
+    newComment 
+  );
+ await  PostModel.updateOne({ _id: pid },
+    { $push: { comments: commentEdit._id } }
     );
-    await PostModel.updateOne({ _id: req.params.pid },
-      { $push: { comments: newComment._id } }
-      );
-    if (!commentEdit) res.json({ status: `Can't update comment` });
-    else res.json({ status: "update comment success", data: newComment });
-  } catch (error) {
-    res.status(500).json(error);
-  }
+    return commentEdit;
 };
 
-let deleteComment = async (req, res) => {
-  try {
-    let commentDelete = await CommentModel.findOneAndDelete({ _id: req.params.cid });
-    if (!commentDelete) res.json({ status: `Comment not found!`});
-    else res.json({ status: `Delete Succesfully!` });
-  } catch (error) {
-    res.status(500).json(error);
-  }
+let deleteComment = async (pid,cid) => {
+ await CommentModel.deleteOne({ _id:cid });
+  await PostModel.updateOne({_id:pid});
 };
 
 module.exports = {
