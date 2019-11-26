@@ -2,14 +2,8 @@ const CommentModel = require(`../../model/Comment`);
 const UserModel = require("../../model/User");
 const PostModel = require("../../model/Post");
 // lay tat ca comment cua 1 bai viet
-let getAllComment = async (req, res) => {
-  try {
-
-    let getCommentId = await PostModel.findById(req.params.pid).populate("comments");
-    res.json(getCommentId.comments);
-  } catch (error) {
-    res.status(500).json(error);
-  }
+let getAllComment = (pid) => {
+  return  PostModel.findById(pid).populate("comments").populate('user',["username","email","avatar"])
 };
 
 let createComment = async (req, res) => {
@@ -37,7 +31,7 @@ let updateComment = async (req, res) => {
     if(req.body.content) newComment.content = req.body.content
     let commentEdit = await CommentModel.updateOne(
       { _id: req.params.cid },
-      { newComment }
+      newComment 
     );
     await PostModel.updateOne({ _id: req.params.pid },
       { $push: { comments: newComment._id } }

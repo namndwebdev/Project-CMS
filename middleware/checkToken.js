@@ -2,9 +2,9 @@
 const jwt = require("jsonwebtoken");
 var check =  function(req, res, next){
   let token = req.headers.token
-   jwt.verify(token, 'doan', function(err, decoded) {
+   jwt.verify(token, 'doan', function(err, user) {
       if(!err){
-        // req.type = decoded;  
+        req.locals = user.user._id;  
         next()
       }else{
        res.redirect('/login')

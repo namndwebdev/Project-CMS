@@ -2,20 +2,32 @@ let formidable = require("formidable");
 let express = require("express");
 let router = express.Router();
 let PostModel = require("../../model/Post");
-router.post("/", function (req, res, next) {
+let checkToken = require("../../middleware/checkToken")
+router.post("/",checkToken, function (req, res, next) {
     var form = new formidable.IncomingForm();
+    form.multiples = true;
+    var maxSize = 25*1024*1024; // 25MB
     form.uploadDir = "public/images/post/";
-    form.on('fileBegin', function (key, file) {
-        var newpath = form.uploadDir + file.name;
-        file.path = newpath;
+    form.on('fileBegin', function (key, file) {  
+        if(form.bytesExpected > maxSize){
+            res.json('Size must not be over 25MB');
+        } else{
+            var type = file.type;
+            type = type.split('/');
+            type = type[1];
+            if(type != 'jpeg' && type != 'png' && type != 'gif')
+            {
+                res.json('error', "JPG's, PNG's, GIF's only");
+            }
+        }
     })
-    form.parse(req, function (err, fields, file) {
+    form.parse(req, async function (err, fields, file) {
         let imagesPost = {};
         if(file.images) imagesPost.images = file.images.path;
-        UserModel.findOneAndUpdate({_id:"5dd805a3f6b2d10594ce5248"},imagesPost).then(function(pathAvatar){
+      await  UserModel.updateOne({_id:req.locals},imagesPost).then(function(pathAvatar){
             res.json(imagesPost);
         });   
-        res.json(file.images);
+
     });
 });
 module.exports = router;

@@ -5,7 +5,6 @@ const JWTStrategy = passportJWT.Strategy
 const ExtractJWT = passportJWT.ExtractJwt
 const bcrypt = require('bcrypt');
 const UserModel = require('../model/User')
-
 passport.use(new LocalStrategy({
   usernameField: 'email',
   passwordField: 'password'
@@ -26,9 +25,6 @@ passport.use(new LocalStrategy({
     } catch (error) {
       done(error)
     }
-
-
-
   }
 ))
 
