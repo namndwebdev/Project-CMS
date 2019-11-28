@@ -12,16 +12,6 @@ router.post("/",checkToken, function (req, res, next) {
     form.on("error",function(message){
         return res.status(500).json("limit <25MB")
     })
-    // form.on("fileBegin",function (key,file) {
-    //     var type = file.type;
-    //     type = type.split('/');
-    //     type = type[1];
-    //     console.log(type)
-    //     if(type != 'jpeg' && type != 'png' && type != 'gif')
-    //     {
-    //         // req.connection.destroy();   
-    //     }
-    // })
     form.on('file',async function (key, file) {  
         // var fileType = file.type.split('/').pop();
         var path = file.path;

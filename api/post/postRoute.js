@@ -30,7 +30,7 @@ router.post('/',checkToken,async function(req,res,next) {
           title:req.body.title,
           content:req.body.content,
           topic:req.body.topic,
-          user:req.body.idUser
+          user:req.user
         };
         let data = await postService.createPost(newPost);
         return res.json({
