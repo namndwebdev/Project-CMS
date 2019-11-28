@@ -1,5 +1,6 @@
 let URI = "mongodb://localhost/strapi-cms-project"
 
 module.exports = {
-    URI
+    URI,
+    host: 'http://localhost:3000/'
 }

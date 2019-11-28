@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
+const host = require('../configs/config').host;
 // const bcrypt = require('bcrypt');
 
 let UserSchema = new Schema({
@@ -12,7 +13,7 @@ let UserSchema = new Schema({
   type: { type: Number, default: 2 },
   avatar: {
     type: String,
-    default:"/public/images/avatar/user.jpg"
+    default:`${host}images/avatar/user.jpg`
   }
 }, { collection: `users-permissions_user`, timestamps: true });
 

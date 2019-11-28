@@ -7,7 +7,7 @@ var check =  function(req, res, next){
         req.user = user.user._id;  
         next()
       }else{
-       res.redirect('/login')
+       res.json("khong co token")
       }
     });  
 }

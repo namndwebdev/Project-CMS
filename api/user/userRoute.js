@@ -21,7 +21,6 @@ router.get('/',async function(req,res,next){
 router.get('/:uid',async function(req,res,next) {
     try {
         let user = await userService.getUser(req.params.uid);
-        
         return res.json({
           status: "Search Successfully",
           data: user

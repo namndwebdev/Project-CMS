@@ -5,8 +5,8 @@ let PostModel = require("../../model/Post");
 let checkToken = require("../../middleware/checkToken")
 router.post("/",checkToken, function (req, res, next) {
     var form = new formidable.IncomingForm();
+    form.keepExtensions = true;
     form.multiples = true;
-    var maxSize = 25*1024*1024; // 25MB
     form.uploadDir = "public/images/post/";
     form.on('fileBegin', function (key, file) {  
         if(form.bytesExpected > maxSize){
