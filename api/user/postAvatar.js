@@ -12,12 +12,11 @@ router.post("/",checkToken, function (req, res, next) {
     form.on("error",function(message){
         return res.status(500).json("limit <25MB")
     })
+    form.on('fileBegin',async function (key, file) {  
+      file.path = form.uploadDir + file.name;
+    })
     form.on('file',async function (key, file) {  
-        // var fileType = file.type.split('/').pop();
-        var path = file.path;
-        path = path.split('/');
-            var newpath = host + path[1]+"/"+path[2]+"/"+path[3];
-            console.log(newpath)
+            var newpath = host + "images/avatar/" +file.name;
             let avatarNew = {}  
             if(file.path) avatarNew.avatar = newpath;
             await UserModel.updateOne({_id:req.user},avatarNew)

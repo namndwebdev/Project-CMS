@@ -5,9 +5,13 @@ const checkToken = require("../../middleware/checkToken")
 router.get('/',async function(req,res,next) {
     try {
         let data = await postService.getAllPost();
+         let newData= data.sort(function(a,b){
+          return new Date(b.updatedAt) - new Date(a.updatedAt);
+        });
+         console.log(newData)
         return res.json({
           status: "Search Successfully",
-          data
+          data:newData
         });
       } catch (error) {
         return res.status(500).json(error);
