@@ -6,12 +6,12 @@ router.get('/',async function(req,res,next) {
     try {
         let data = await postService.getAllPost();
          let newData= data.sort(function(a, b) {
-          return new Date(a.createdAt).getTime()>new Date(b.createdAt).getTime() ? -1:1;
+          return new Date(a.updatedAt).getTime()>new Date(b.updatedAt).getTime() ? -1:1;
       });
       console.log(newData)
         return res.json({
           status: "Search Successfully",
-          data
+          data:newData
         });
       } catch (error) {
         return res.status(500).json(error);
