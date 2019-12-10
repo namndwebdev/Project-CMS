@@ -7,6 +7,5 @@ let isEmail= async (req, res, next) => {
           res.json({message: "Email is already exist"})
         }
     });
-   
 }
 module.exports = isEmail;

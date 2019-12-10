@@ -5,7 +5,6 @@ const bcrypt = require('bcrypt');
 const saltRounds = 10;
 const isEmail = require("../../middleware/isEmail")
 let nodemailer = require("nodemailer");
-let configPassword = require("../../configs/configEmail");
 let jwt = require('jsonwebtoken');
 router.get('/',async function(req,res,next){
     try {
@@ -37,7 +36,7 @@ router.post('/',isEmail, function(req,res,next){
               service: 'gmail',
               auth:{
                   user:"voicoiloichoi@gmail.com",
-                  pass: configPassword.password
+                  pass:"0979581350"
               }
           })
           let mailOptions = {
